@@ -36,7 +36,7 @@ async def handle_fillform(message: Message, state: FSMContext):
 async def handle_get_name(message: Message, state: FSMContext):
     name_from_message = message.text
     await state.update_data(name=name_from_message)  # {'name': name_from_message}
-    await message.answer('Хорошо. А теперь напишите ваш возраст')
+    await message.answer('Хорошо.Напишите ваш возраст')
     await state.set_state(FormStatesGroup.fill_age)
 
 
@@ -45,7 +45,7 @@ async def handle_get_age(message: Message, state: FSMContext):
     age_from_message = message.text
     if age_from_message.isdigit() and 1 <= int(age_from_message) <= 120:
         await state.update_data(age=age_from_message)
-        await message.answer('А теперь укажите ваш пол:', reply_markup=gender_inline_keyboard)
+        await message.answer('Укажите ваш пол:', reply_markup=gender_inline_keyboard)
         await state.set_state(FormStatesGroup.fill_gender)
     else:
         await message.answer('Вы ввели что-то не то')
@@ -55,7 +55,7 @@ async def handle_get_age(message: Message, state: FSMContext):
 async def handle_get_gender(query: CallbackQuery, callback_data: GenderCallbackData, state: FSMContext):
     is_male = callback_data.is_male
     await state.update_data(is_male=is_male)
-    await query.message.answer('А теперь немного расскажите о себе')
+    await query.message.answer('Расскажите о себе')
     await state.set_state(FormStatesGroup.fill_description)
     await query.answer()  # Убираем часики
 
